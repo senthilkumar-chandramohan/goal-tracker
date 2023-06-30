@@ -1,0 +1,7 @@
+POST http://localhost:4000/get-tasks
+Content-Type: application/json
+
+{
+    "heading": "Learn guitar",
+    "deadline": "2 weeks"
+}

@@ -1,0 +1,131 @@
+/* Color Theme Swatches in RGBA */
+@Spring-Blossoms-Colorful-1-rgba: rgba(38, 63, 115, 1); // Blue
+@Spring-Blossoms-Colorful-2-rgba: rgba(128, 178, 242, 1); // Light Blue
+@Spring-Blossoms-Colorful-3-rgba: rgba(45, 166, 154, 1); // Green
+@Spring-Blossoms-Colorful-4-rgba: rgba(74, 217, 176, 1); // Light Green
+@Spring-Blossoms-Colorful-5-rgba: rgba(242, 237, 167, 1); // Yellow
+
+@white: #F5F5F5;
+@text: #040404;
+@font-face {
+    font-family: rubberstamp;
+    src: url("http://localhost:3000/stamp.ttf");
+}
+
+body {
+    background-color: @Spring-Blossoms-Colorful-1-rgba !important;
+    color: @Spring-Blossoms-Colorful-5-rgba !important;
+    caret-color: transparent;
+}
+
+.add-goal {
+    height: 5rem;
+    width: 5rem;
+    background-color: @Spring-Blossoms-Colorful-3-rgba;
+    border-radius: 10px;
+    position: relative;
+    margin: 1rem 0;
+    &::before {
+        margin: auto;
+        content: "";
+        position: absolute;
+        height: 10%;
+        width: 50%;
+        background-color: @Spring-Blossoms-Colorful-1-rgba;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-radius: 5px;
+    }
+    &::after {
+        margin: auto;
+        content: "";
+        position: absolute;
+        height: 50%;
+        width: 10%;
+        background-color: @Spring-Blossoms-Colorful-1-rgba;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-radius: 5px;
+    }
+}
+
+.goal-summary {
+    text-align: center;
+    font-weight: 600;
+    background-color: @Spring-Blossoms-Colorful-5-rgba;
+    border-radius: 10px;
+    position: relative;
+    color: @Spring-Blossoms-Colorful-1-rgba;
+    padding: 1rem;
+    margin: 1rem 0;
+    box-sizing: border-box;
+}
+
+/* Bootstrap modal override */
+.modal {
+    color: @Spring-Blossoms-Colorful-1-rgba;
+    .modal-content {
+        color: @Spring-Blossoms-Colorful-1-rgba;
+    }
+
+    input, textarea {
+        color: @Spring-Blossoms-Colorful-1-rgba;
+        caret-color: @Spring-Blossoms-Colorful-1-rgba;
+    }
+    .col, .col-2, .col-3, .col-4, .col-6, .col-8 {
+        box-sizing: border-box;
+        padding: 0.5rem;
+    }
+    .btn-primary {
+        background-color: @Spring-Blossoms-Colorful-3-rgba;
+        border: solid 1px @Spring-Blossoms-Colorful-3-rgba;
+        border-radius: 5px;
+    }
+    label.form-check-label {
+        position: relative;
+        margin-top: 0.3rem;
+        margin-left: 0.3rem;
+    }
+    .form-check .form-check-input {
+        margin-left: 0;
+        margin-top: 0.6rem;
+    }
+}
+
+.task-group {
+    background-color: @Spring-Blossoms-Colorful-1-rgba;
+    color: @Spring-Blossoms-Colorful-5-rgba;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+
+    .heading {
+        background-color: @Spring-Blossoms-Colorful-3-rgba;
+        color: @white;
+        padding: 1rem;
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
+    }
+
+    .content {
+        padding: 0.5rem 0;
+    }
+
+    .task {
+        margin: 1.5rem 0;
+        padding: 0 3.5rem 0 0.5rem;
+        position: relative;
+
+        &:after {
+            font-family: rubberstamp;
+            content: attr(data-duration);
+            top: 0;
+            right: 5px;
+            position: absolute;
+        }
+    }
+}

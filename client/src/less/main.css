@@ -1,0 +1,119 @@
+/* Color Theme Swatches in RGBA */
+@font-face {
+  font-family: rubberstamp;
+  src: url("http://localhost:3000/stamp.ttf");
+}
+body {
+  background-color: #263f73 !important;
+  color: #f2eda7 !important;
+  caret-color: transparent;
+}
+.add-goal {
+  height: 5rem;
+  width: 5rem;
+  background-color: #2da69a;
+  border-radius: 10px;
+  position: relative;
+  margin: 1rem 0;
+}
+.add-goal::before {
+  margin: auto;
+  content: "";
+  position: absolute;
+  height: 10%;
+  width: 50%;
+  background-color: #263f73;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 5px;
+}
+.add-goal::after {
+  margin: auto;
+  content: "";
+  position: absolute;
+  height: 50%;
+  width: 10%;
+  background-color: #263f73;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 5px;
+}
+.goal-summary {
+  text-align: center;
+  font-weight: 600;
+  background-color: #f2eda7;
+  border-radius: 10px;
+  position: relative;
+  color: #263f73;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-sizing: border-box;
+}
+/* Bootstrap modal override */
+.modal {
+  color: #263f73;
+}
+.modal .modal-content {
+  color: #263f73;
+}
+.modal input,
+.modal textarea {
+  color: #263f73;
+  caret-color: #263f73;
+}
+.modal .col,
+.modal .col-2,
+.modal .col-3,
+.modal .col-4,
+.modal .col-6,
+.modal .col-8 {
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+.modal .btn-primary {
+  background-color: #2da69a;
+  border: solid 1px #2da69a;
+  border-radius: 5px;
+}
+.modal label.form-check-label {
+  position: relative;
+  margin-top: 0.3rem;
+  margin-left: 0.3rem;
+}
+.modal .form-check .form-check-input {
+  margin-left: 0;
+  margin-top: 0.6rem;
+}
+.task-group {
+  background-color: #263f73;
+  color: #f2eda7;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+.task-group .heading {
+  background-color: #2da69a;
+  color: #F5F5F5;
+  padding: 1rem;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
+.task-group .content {
+  padding: 0.5rem 0;
+}
+.task-group .task {
+  margin: 1.5rem 0;
+  padding: 0 3.5rem 0 0.5rem;
+  position: relative;
+}
+.task-group .task:after {
+  font-family: rubberstamp;
+  content: attr(data-duration);
+  top: 0;
+  right: 5px;
+  position: absolute;
+}
