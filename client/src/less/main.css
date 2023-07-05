@@ -8,6 +8,9 @@ body {
   color: #f2eda7 !important;
   caret-color: transparent;
 }
+p.legal {
+  font-size: 0.75rem;
+}
 .add-goal {
   height: 5rem;
   width: 5rem;
@@ -94,13 +97,35 @@ body {
   margin: 1rem 0;
   border-radius: 0.5rem;
   box-sizing: border-box;
+  position: relative;
+}
+.task-group.minimize {
+  height: 55px;
+  overflow: hidden;
+}
+.task-group.minimize::after {
+  border-color: transparent white white transparent;
+  top: 1rem;
+}
+.task-group::after {
+  content: "";
+  border: solid 3px #fff;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  top: 1.5rem;
+  right: 1rem;
+  border-color: white transparent transparent white;
+  rotate: 45deg;
 }
 .task-group .heading {
+  cursor: pointer;
   background-color: #2da69a;
   color: #F5F5F5;
   padding: 1rem;
   border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
+  text-transform: capitalize;
 }
 .task-group .content {
   padding: 0.5rem 0;
@@ -110,10 +135,32 @@ body {
   padding: 0 3.5rem 0 0.5rem;
   position: relative;
 }
-.task-group .task:after {
+.task-group .task input[type="text"] {
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+.task-group .task .task-duration {
+  cursor: pointer;
+  position: absolute;
+  height: 30%;
+  width: 3.5rem;
+  right: 0;
+  text-align: center;
+}
+.task-group .task .task-duration.up {
+  top: 0;
+  line-height: 10px;
+}
+.task-group .task .task-duration.down {
+  bottom: 0;
+  line-height: 30px;
+}
+.task-group .task::after {
   font-family: rubberstamp;
   content: attr(data-duration);
-  top: 0;
-  right: 5px;
+  top: 15px;
+  right: 0.4rem;
   position: absolute;
 }

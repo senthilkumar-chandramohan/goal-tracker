@@ -1,18 +1,52 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from 'react-bootstrap/Button'
 import TaskGroup from './TaskGroup'
+import { GoalContext } from './GoalContext'
+import MyAlert from '../MyAlert';
 
-const TaskList = ({heading, deadline}) => {
+const TaskList = ({ heading, deadline, timePerDay }) => {
     const [roadmap, setRoadMap] = useState(null)
 
-    const handleManuallyAddTasks = () => {
+    useEffect(() => {
+    })
 
+    const cleanseResponse = (gptResponse) => {
+        for (let i = 0; i < gptResponse.roadmap.length; i++) {
+            for (let j=0; j < gptResponse.roadmap[i].tasks.length; j++) {
+                gptResponse.roadmap[i].tasks[j].duration = parseInt(gptResponse.roadmap[i].tasks[j].duration.substr(0,1))
+            }
+        }
+
+        return gptResponse
+    }
+
+    const handleManuallyAddTasks = () => {
+        console.log("Manual")
+        setRoadMap([
+            {
+                week: "1",
+                tasks: []
+            },
+            {
+                week: "2",
+                tasks: []
+            },
+            {
+                week: "3",
+                tasks: []
+            },
+            {
+                week: "4",
+                tasks: []
+            }
+        ])
     }
 
     const handleGetGPTRecommendations = () => {
         const getTasksBody = {
             heading,
             deadline,
+            timePerDay,
         }
 
         console.log(getTasksBody)
@@ -27,38 +61,50 @@ const TaskList = ({heading, deadline}) => {
         })
         .then(response=>response.json())
         .then(data => {
-            const gptResponse = JSON.parse(data.data.content)
             console.log(data.data.content)
-            setRoadMap(gptResponse.roadmap)
+            const gptResponse = JSON.parse(data.data.content)
+            // Remove all "days/weeks" from response
+            const cleansedResponse = cleanseResponse(gptResponse)
+            // console.log(cleansedResponse)
+            setRoadMap(cleansedResponse.roadmap)
         })
         .catch(err=>console.log(err))
     }
 
     return (
-        <>
-            <h2>Goal Added Successfully!</h2>
-            <p>Do you want GPT to recommend tasks?</p>
-            <div>
-                <Button variant="primary" onClick={handleGetGPTRecommendations}>Yes</Button>
-                &nbsp;
-                <Button variant="secondary" onClick={handleManuallyAddTasks}>No</Button>
-            </div>
-            {
-                roadmap && (
-                    roadmap.map((weekOrMonth, idx) => {
-                        const {
-                            week,
-                            month,
-                            tasks,
-                        } = weekOrMonth
+        <GoalContext.Provider value={{roadmap, setRoadMap}}>
+            <>
+                {
+                    !roadmap && (
+                        <>
+                            <h2>Goal Added Successfully!</h2>
+                            <p>Do you want ChatGPT to recommend tasks?</p>
+                            <p className="legal">
+                                <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as they might not be accurate.
+                            </p>
+                            <div>
+                                <Button variant="primary" onClick={handleGetGPTRecommendations}>Yes</Button>
+                                &nbsp;
+                                <Button variant="secondary" onClick={handleManuallyAddTasks}>No</Button>
+                            </div>
+                        </>
+                    )
+                }
+                {
+                    roadmap && (
+                        roadmap.map((weekOrMonth, idx) => {
+                            const {
+                                week,
+                            } = weekOrMonth
 
-                        return (
-                            <TaskGroup heading={week||month} tasks={tasks} />
-                        )
-                    })
-                )
-            }
-        </>
+                            return (
+                                <TaskGroup key={idx} type={week ? 'week' : 'month'} weekMonthIdx={idx} />
+                            )
+                        })
+                    )
+                }
+            </>
+        </GoalContext.Provider>
     )
 }
 

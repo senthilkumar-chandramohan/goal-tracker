@@ -7,10 +7,12 @@ import TaskList from './Goal/TaskList'
 
 const NewGoal = () => {
     const [show, setShow] = useState(false)
+    const [modalTitle, setModalTitle] = useState("New Goal")
     const [ctaText, setCtaText] = useState("Add Goal")
     const [mainView, setMainView] = useState("form")
     const [heading, setHeading] = useState("")
     const [deadline, setDeadline] = useState("")
+    const [timePerDay, setTimePerDay] = useState("")
     const { addManualEvent, handleSignoutClick, listUpcomingEvents } = useContext(GoogleLoginContext)
 
     const handleClose = () => setShow(false)
@@ -24,6 +26,8 @@ const NewGoal = () => {
             const count = document.getElementById('count').value
             const week = document.getElementById('week')
             const month = document.getElementById('month')
+            const timePerDayDropDown = document.getElementById('timePerDay')
+            const timePerDay = timePerDayDropDown.options[timePerDayDropDown.selectedIndex].text
 
             const weekOrMonth = week.checked ? "week" : "month"
             // addManualEvent(heading, description, `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`)
@@ -31,8 +35,10 @@ const NewGoal = () => {
 
             setHeading(heading)
             setDeadline(deadline)
+            setTimePerDay(timePerDay)
             setMainView("tasklist")
             setCtaText("Add Tasks")
+            setModalTitle("Task List")
         } else {
         }
     }
@@ -61,14 +67,14 @@ const NewGoal = () => {
                 keyboard={false}
             >
             <Modal.Header closeButton>
-                <Modal.Title>New Goal</Modal.Title>
+                <Modal.Title>{modalTitle}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {
                     mainView === "form" && <NewGoalForm />
                 }
                 {
-                    mainView === "tasklist" && <TaskList heading={heading} deadline={deadline} />
+                    mainView === "tasklist" && <TaskList heading={heading} deadline={deadline} timePerDay={timePerDay} />
                 }
             </Modal.Body>
             <Modal.Footer>

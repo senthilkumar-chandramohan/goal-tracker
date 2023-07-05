@@ -2,8 +2,7 @@ const template = {
     month: `{
         "roadmap": [
             {
-            "month": "Month 1",
-            "duration": "4 weeks",
+            "month": "1",
             "tasks": [
                 {
                 "task": "",
@@ -24,8 +23,7 @@ const template = {
     week: `{
         "roadmap": [
             {
-            "week": "Week 1",
-            "duration": "7 days",
+            "week": "1",
             "tasks": [
                 {
                 "task": "",
@@ -45,11 +43,7 @@ const template = {
                 },
                 {
                 "task": "",
-                "duration": "1 day"
-                },
-                {
-                "task": "",
-                "duration": "1 day"
+                "duration": "2 days"
                 }
             ]
             }

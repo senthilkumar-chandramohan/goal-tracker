@@ -59,19 +59,24 @@ app.post("/get-tasks", async (req, res) => {
     try {
         const {
             heading,
-            deadline,            
+            deadline,
+            timePerDay,
         } = req.body
 
         console.log(req.body)
 
         const gptSampleJSONTemplate = deadline.includes("week") ? gptSampleJsonTemplates.week : gptSampleJsonTemplates.month
-        const query = `Can you provide me step-by-step roadmap, formatted as JSON, as shown below, with time taken for each step and breakdown of tasks to ${heading} within a span of ${deadline}?
+        
+        const query = `Provide roadmap with time taken for each step and breakdown of tasks to ${heading} in ${deadline}, spending ${timePerDay} a day, in below JSON format
         ${gptSampleJSONTemplate}`
+
+        // const query = `Can you provide me step-by-step roadmap, formatted as JSON, as shown below, with time taken for each step and breakdown of tasks to ${heading} within a span of ${deadline}?
+        // ${gptSampleJSONTemplate}`
 
         console.log(query)
 
         // const response = await openai.createCompletion({
-        //     model: "curie",
+        //     model: "davinci:ft-personal-2023-06-30-21-20-23",
         //     prompt: query,
         //     max_tokens: 64,
         //     temperature: 0,

@@ -36,11 +36,11 @@ const NewGoalForm = () => {
                         <label htmlFor="count">Deadline</label>
                     </div>
                     <div className="col-2">
-                        <select className="form-select" id="count">
+                        <select className="form-select" id="count" defaultValue="4">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            <option value="4" selected>4</option>
+                            <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
                             <option value="7">7</option>
@@ -63,9 +63,9 @@ const NewGoalForm = () => {
                         <label htmlFor="hours">Time/Day</label>
                     </div>
                     <div className="col-8">
-                        <select className="form-select" id="hours">
+                        <select className="form-select" id="timePerDay" defaultValue="1">
                             <option value="0.25">15 min</option>
-                            <option value="0.5" selected>30 min</option>
+                            <option value="0.5">30 min</option>
                             <option value="0.75">45 min</option>
                             <option value="1">1 Hour</option>
                             <option value="2">2 Hours</option>
