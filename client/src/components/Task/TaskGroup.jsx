@@ -1,5 +1,5 @@
-import { useContext, useState, useCallback, useEffect } from 'react'
-import { GoalContext } from './GoalContext'
+import { useContext, useState, useCallback } from 'react'
+import { GoalContext } from '../Goal/GoalContext'
 import MyAlert from '../MyAlert';
 
 const TaskGroup = ({ type, weekMonthIdx }) => {
@@ -7,26 +7,8 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
     const [errMsg, setErrMsg] = useState(null);
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const { roadmap, setRoadMap } = useContext(GoalContext)
-
-    // useEffect(() => {
-    //     let touchstartY = 0
-    //     let touchendY = 0
-            
-    //     function checkDirection() {
-    //         if (touchendY < touchstartY) alert('swiped up!')
-    //         if (touchendY > touchstartY) alert('swiped down!')
-    //     }
-
-    //     document.addEventListener('touchstart', e => {
-    //         touchstartY = e.changedTouches[0].screenY
-    //     })
-
-    //     document.addEventListener('touchend', e => {
-    //         touchendY = e.changedTouches[0].screenY
-    //         checkDirection()
-    //     })
-    // })
+    const { goal } = useContext(GoalContext)
+    const roadmap = goal.roadmap
 
     const handleTaskHeadingClick = (elem) => {
         const group = document.getElementById(`${type}${elem.target.id.substr(type.length,1)}`)
@@ -39,7 +21,6 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
 
     const canAddNewTask = () => {
         const unitBooked = roadmap[weekMonthIdx].tasks.reduce((totalDuration, task)=>totalDuration+task.duration, 0)
-        console.log(unitBooked)
         const upperLimit = type === 'week' ? 7 : 4 // 7 days in a week / 4 weeks in a month
         const availableSlots = upperLimit - unitBooked
         return availableSlots > 0 ? true : false
@@ -47,20 +28,16 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
 
     const handleAddTask = (e) => {
         roadmap[weekMonthIdx].tasks.push({
-            task: 'New Task',
+            task: '',
             duration: 1
         })
-        setRoadMap(roadmap)
-        console.log(roadmap)
         forceUpdate()
     }
 
     const validateDurationChange = (increment, taskIdx) => {
         const unitBooked = roadmap[weekMonthIdx].tasks.reduce((totalDuration, task)=>totalDuration+task.duration, 0)
-        console.log(unitBooked)
         const upperLimit = type === 'week' ? 7 : 4 // 7 days in a week / 4 weeks in a month
         const availableLimit = upperLimit - unitBooked
-        console.log(availableLimit)
         
         if (increment) {
             if (availableLimit > 0) {
@@ -107,17 +84,12 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
         }
 
         forceUpdate()
-
-        // setRoadMap(roadmap)
-        // console.log(roadmap)
     }
 
     const handleTaskChange = (e) => {
         const taskIndex = e.target.getAttribute('data-task-idx')
 
         roadmap[weekMonthIdx].tasks[taskIndex].task = e.target.value
-        setRoadMap(roadmap)
-        // console.log(roadmap)
         forceUpdate()
     }
 
@@ -126,8 +98,6 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
             const taskIndex = e.target.getAttribute('data-task-idx')
 
             roadmap[weekMonthIdx].tasks.splice(taskIndex,1)
-            setRoadMap(roadmap)
-            console.log(roadmap)
             forceUpdate()
         }
     }
@@ -150,7 +120,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
 
                         return (
                             <div key={idx} className="task" data-duration={`${duration} ${unit}${duration > 1 ?'s' : ''}`}>
-                                <input type="text" data-task-idx={idx} id={`${groupId}Task${idx}`} value={taskItem.task} onChange={handleTaskChange} onBlur={handleTaskBlur} />
+                                <input autoComplete='off' type="text" data-task-idx={idx} id={`${groupId}Task${idx}`} value={taskItem.task} onChange={handleTaskChange} onBlur={handleTaskBlur} />
                                 <div className="task-duration up" data-task-idx={idx} data-direction="up" id={`${groupId}TaskDuration${idx}`} onClick={handleTaskDurationChange}>&and;</div>
                                 <div className="task-duration down" data-task-idx={idx} data-direction="down" id={`${groupId}TaskDuration${idx}`} onClick={handleTaskDurationChange}>&or;</div>
                             </div>
@@ -159,7 +129,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
                 }
                 {
                     canAddNewTask(weekMonthIdx) && (
-                        <button onClick={handleAddTask}>Add Task</button>
+                        <button className='add-task' onClick={handleAddTask}>Add Task</button>
                     )
                 }
             </div>

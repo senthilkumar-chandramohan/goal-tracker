@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-// import { GoogleLogin, hasGrantedAllScopesGoogle } from '@react-oauth/google'
 import jwt_decode from "jwt-decode"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "react-datepicker/dist/react-datepicker.css"
 import './less/main.less'
 
-import GoogleLogin from './components/GoogleLogin'
+import MainScreen from './components/MainScreen'
 
 function App() {
   // return (
@@ -30,7 +29,8 @@ function App() {
       </header>
       <main className="row">
         <div className="col-12">
-          <GoogleLogin />
+          {/* <GoogleLogin /> */}
+          <MainScreen />
         </div>
       </main>
       <footer className="row">

@@ -1,7 +1,7 @@
 /* Color Theme Swatches in RGBA */
 @font-face {
   font-family: rubberstamp;
-  src: url("http://localhost:3000/stamp.ttf");
+  src: url("http://localhost:3001/stamp.ttf");
 }
 body {
   background-color: #263f73 !important;
@@ -129,6 +129,10 @@ p.legal {
 }
 .task-group .content {
   padding: 0.5rem 0;
+}
+.task-group .content .add-task {
+  cursor: pointer;
+  margin: 0 0.5rem;
 }
 .task-group .task {
   margin: 1.5rem 0;

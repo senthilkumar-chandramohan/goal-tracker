@@ -1,5 +1,5 @@
-import NewGoal from "./NewGoal"
-import GoalSummaries from "./GoalSummaries"
+import NewGoal from "./Goal/NewGoal"
+import GoalSummaries from "./Goal/GoalSummaries"
 
 const MainScreen = () => {
     return (

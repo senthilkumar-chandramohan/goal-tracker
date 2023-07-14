@@ -5,19 +5,19 @@ const NewGoalForm = () => {
     const [startDate, setStartDate] = useState(new Date())
 
     return (
-        <form>
+        <form autoComplete="off">
             <div className="container">
                 <div className="row">
                     <div className="col-4">
                         <label className="form-label" htmlFor="heading">Heading</label>
                     </div>
                     <div className="col-8">
-                        <input className="form-control" id="heading" type="text" />
+                        <input className="form-control" id="heading" type="text" placeholder="e.g. Learn Guitar, Become fit" maxLength={30} required />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-4">
-                        <label className="form-label" htmlFor="description">Description</label>
+                        <label className="form-label" htmlFor="description">Description (optional)</label>
                     </div>
                     <div className="col-8">
                         <textarea className="form-control" id="description" rows="6" cols="30"></textarea>
@@ -78,7 +78,7 @@ const NewGoalForm = () => {
                         </select>
                     </div>
                 </div>
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-4">
                         <label htmlFor="preferredTime">Preferred Time</label>
                     </div>
@@ -88,7 +88,7 @@ const NewGoalForm = () => {
                             <option value="PM">Evening</option>
                         </select>
                     </div>
-                </div>
+                </div> */}
             </div>
         </form>
     )

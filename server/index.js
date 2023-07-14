@@ -8,7 +8,7 @@ const port = process.env.PORT || 4000
 const app = express()
 app.use(express.json())
 app.use(cors({
-    origin: ['http://localhost:3000','https://goaltracker.vercel.app']
+    origin: ['http://localhost:3000', 'http://localhost:3001','https://goaltracker.vercel.app']
 }))
 
 const configuration = new Configuration({

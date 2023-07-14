@@ -18,9 +18,9 @@ const MyAlert = ({variant, heading, body}) => {
         <>
         {
             show && (
-                <Alert style={{width:'90%'}} variant={variant}>
+                <Alert style={{ width: '90%', margin: '1rem auto'}} variant={variant}>
                     {/* <Alert.Heading>{heading}</Alert.Heading> */}
-                    <p>
+                    <p style={{ marginBottom: '0'}}>
                         {body}
                     </p>
                 </Alert>
