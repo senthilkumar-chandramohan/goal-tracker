@@ -1,13 +1,11 @@
-import { useContext, useState, useCallback } from 'react'
+import { useContext } from 'react'
 import Button from 'react-bootstrap/Button'
 import TaskGroup from './TaskGroup'
 import { GoalContext } from '../Goal/GoalContext'
 
 const TaskList = () => {
-    const { goal } = useContext(GoalContext)
-
-    const [, updateState] = useState();
-    const forceUpdate = useCallback(() => updateState({}), []);
+    const { goalId, roadmap, setRoadMap } = useContext(GoalContext)
+    const goal = window.goals.find(goal => goal.id === goalId)
 
     const cleanseResponse = (gptResponse) => {
         for (let i = 0; i < gptResponse.roadmap.length; i++) {
@@ -36,9 +34,8 @@ const TaskList = () => {
             })
         }
 
-        goal.roadmap = defaultRoadmap
-        console.log(goal.roadmap)
-        forceUpdate()
+        setRoadMap(defaultRoadmap)
+        console.log(roadmap)
     }
 
     const getTimePerDayText = (timePerDay) => {
@@ -85,7 +82,7 @@ const TaskList = () => {
             console.log(data.data.content)
             const gptResponse = JSON.parse(data.data.content)
             const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
-            goal.roadmap = cleansedResponse.roadmap
+            setRoadMap(cleansedResponse.roadmap)
         })
         .catch(err=>console.log(err))
     }
@@ -93,7 +90,7 @@ const TaskList = () => {
     return (
         <>
             {
-                !goal.roadmap && (
+                !roadmap && (
                     <>
                         <h2>Goal Added Successfully!</h2>
                         <p>Do you want ChatGPT to recommend tasks?</p>
@@ -109,8 +106,8 @@ const TaskList = () => {
                 )
             }
             {
-                goal.roadmap && (
-                    goal.roadmap.map((weekOrMonth, idx) => {
+                roadmap && (
+                    roadmap.map((weekOrMonth, idx) => {
                         const {
                             week,
                         } = weekOrMonth

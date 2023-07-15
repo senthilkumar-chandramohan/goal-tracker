@@ -7,8 +7,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
     const [errMsg, setErrMsg] = useState(null);
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const { goal } = useContext(GoalContext)
-    const roadmap = goal.roadmap
+    const { roadmap, setRoadMap } = useContext(GoalContext)
 
     const handleTaskHeadingClick = (elem) => {
         const group = document.getElementById(`${type}${elem.target.id.substr(type.length,1)}`)
@@ -98,6 +97,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
             const taskIndex = e.target.getAttribute('data-task-idx')
 
             roadmap[weekMonthIdx].tasks.splice(taskIndex,1)
+            setRoadMap(roadmap)
             forceUpdate()
         }
     }

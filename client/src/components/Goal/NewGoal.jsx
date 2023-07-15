@@ -5,20 +5,26 @@ import NewGoalForm from './NewGoalForm'
 import TaskList from '../Task/TaskList'
 import { GoalContext } from './GoalContext'
 
+import { storeGoals } from '../../utils/storage'
+
 const NewGoal = () => {
     const [show, setShow] = useState(false)
-    const [goal, setGoal] = useState(null)
+    const [goalId, setGoalId] = useState(null)
+    const [roadmap, setRoadMap] = useState(null)
+    const [taskAdded, setTaskAdded] = useState(false)
 
     const handleClose = () => {
-        setGoal(null)
+        setRoadMap(null)
+        setGoalId(null)
+        setTaskAdded(false)
         setShow(false)
     }
 
     const handleShow = () => setShow(true)
     
     const handleAddGoalTasks = () => {
-        if (!goal) {
-            const goalId = Date.now()
+        if (!goalId) {
+            const id = Date.now()
             const heading = document.getElementById('heading').value
             const description = document.getElementById('description').value
             const startDate = new Date(document.getElementById('startDate').value).valueOf()
@@ -27,9 +33,8 @@ const NewGoal = () => {
             const weekOrMonth = week.checked ? 'week' : 'month'
             const timePerDay = parseFloat(document.getElementById('timePerDay').value)
 
-            const goals = window.goals || []
             const newGoal = {
-                goalId,
+                id,
                 heading,
                 description,
                 startDate,
@@ -41,19 +46,27 @@ const NewGoal = () => {
                 status: 'YTB',
                 roadmap: null,
             }
+            
+            if (!window.goals) {
+                window.goals = []
+            }
 
-            goals.push(newGoal)
-            window.goals = goals
-
-            setGoal(newGoal)
-            console.log(goals)
+            window.goals.push(newGoal)
+            // Store updated goals object in local storage
+            storeGoals(goals)
+            setGoalId(id)
         } else {
-            console.log(goal)
+            const goal = window.goals.find(goal => goal.id === goalId)
+            goal.roadmap = roadmap
+            console.log(window.goals)
+            // Store updated goals object in local storage
+            storeGoals(goals)
+            setTaskAdded(true)
         }
     }
 
     return (
-        <GoalContext.Provider value={{ goal }}>
+        <GoalContext.Provider value={{ goalId, roadmap, setRoadMap }}>
             <button
                 className="add-goal"
                 onClick={handleShow}
@@ -67,19 +80,19 @@ const NewGoal = () => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{goal ? `Add Tasks to "${goal.heading}"` : 'Add Goal'}</Modal.Title>
+                    <Modal.Title>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {
-                        !goal && <NewGoalForm />
+                        !goalId && <NewGoalForm />
                     }
                     {
-                        goal && <TaskList />
+                        goalId && <TaskList />
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-                    <Button variant="primary" onClick={handleAddGoalTasks}>{ goal ? 'Add Tasks' : 'Add Goal' }</Button>
+                    <Button variant="secondary" onClick={handleClose}>{ goalId ? 'Close' : 'Cancel'}</Button>
+                    <Button variant="primary" onClick={handleAddGoalTasks}>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal' }</Button>
                 </Modal.Footer>
             </Modal>
         </GoalContext.Provider>
