@@ -1,13 +1,13 @@
 import { useContext, useState, useCallback } from 'react'
 import { GoalContext } from '../Goal/GoalContext'
-import MyAlert from '../MyAlert';
+import GenericAlert from '../GenericAlert'
 
 const TaskGroup = ({ type, weekMonthIdx }) => {
     const [, updateState] = useState();
     const [errMsg, setErrMsg] = useState(null);
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const { roadmap, setRoadMap } = useContext(GoalContext)
+    const { roadmap, setRoadMap, mode } = useContext(GoalContext)
 
     const handleTaskHeadingClick = (elem) => {
         const group = document.getElementById(`${type}${elem.target.id.substr(type.length,1)}`)
@@ -110,7 +110,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
             <div id={`${groupId}Content`} className="content">
                 {
                     errMsg && (
-                        <MyAlert variant={'warning'} heading={'Warning'} body={errMsg} />
+                        <GenericAlert variant={'warning'} heading={'Warning'} body={errMsg} />
                     )
                 }
                 {
@@ -118,16 +118,25 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
                         const duration = taskItem.duration
                         const unit = type === 'week' ? 'day' : 'week'
 
-                        return (
-                            <div key={idx} className="task" data-duration={`${duration} ${unit}${duration > 1 ?'s' : ''}`}>
-                                <input autoComplete='off' type="text" data-task-idx={idx} id={`${groupId}Task${idx}`} value={taskItem.task} onChange={handleTaskChange} onBlur={handleTaskBlur} />
-                                <div className="task-duration up" data-task-idx={idx} data-direction="up" id={`${groupId}TaskDuration${idx}`} onClick={handleTaskDurationChange}>&and;</div>
-                                <div className="task-duration down" data-task-idx={idx} data-direction="down" id={`${groupId}TaskDuration${idx}`} onClick={handleTaskDurationChange}>&or;</div>
-                            </div>
-                        )
+                        if (mode === 'view') {
+                            return (
+                                <div key={idx} className="task read-only" data-duration={`${duration} ${unit}${duration > 1 ?'s' : ''}`}>
+                                    <p>{taskItem.task}</p>
+                                </div>
+                            )
+                        } else { // mode = 'edit'
+                            return (
+                                <div key={idx} className="task" data-duration={`${duration} ${unit}${duration > 1 ?'s' : ''}`}>
+                                    <input autoComplete='off' type="text" data-task-idx={idx} id={`${groupId}Task${idx}`} value={taskItem.task} onChange={handleTaskChange} onBlur={handleTaskBlur} />
+                                    <div className="task-duration up" data-task-idx={idx} data-direction="up" id={`${groupId}TaskDuration${idx}`} onClick={handleTaskDurationChange}>&and;</div>
+                                    <div className="task-duration down" data-task-idx={idx} data-direction="down" id={`${groupId}TaskDuration${idx}`} onClick={handleTaskDurationChange}>&or;</div>
+                                </div>
+                            )
+                        }
                     })
                 }
                 {
+                    mode === 'edit' &&
                     canAddNewTask(weekMonthIdx) && (
                         <button className='add-task' onClick={handleAddTask}>Add Task</button>
                     )

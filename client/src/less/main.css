@@ -168,3 +168,15 @@ p.legal {
   position: absolute;
   font-size: 0.9rem;
 }
+.task-group .task.read-only {
+  cursor: pointer;
+}
+.task-group .task.read-only::after {
+  top: 2px;
+}
+.task-group .task.read-only:hover::after {
+  content: "";
+  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9Ik91dGxpbmVkIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlLz48ZyBpZD0iRmlsbCI+PHBhdGggZD0iTTE2LDJBMTQsMTQsMCwxLDAsMzAsMTYsMTQsMTQsMCwwLDAsMTYsMlptMCwyNkExMiwxMiwwLDEsMSwyOCwxNiwxMiwxMiwwLDAsMSwxNiwyOFoiLz48cGF0aCBkPSJNMTMuMzgsMTkuNTlsLTMuMjktMy4zTDguNjcsMTcuNzEsMTIsMjFhMiwyLDAsMCwwLDEuNDIuNThBMiwyLDAsMCwwLDE0Ljc5LDIxbDguNTQtOC41NC0xLjQyLTEuNDFaIi8+PC9nPjwvc3ZnPg==");
+  height: 28px;
+  width: 28px;
+}

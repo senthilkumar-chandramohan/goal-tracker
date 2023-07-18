@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import Button from 'react-bootstrap/Button'
 import TaskGroup from './TaskGroup'
 import { GoalContext } from '../Goal/GoalContext'
+import GenericAlert from '../GenericAlert'
 
 const TaskList = () => {
     const { goalId, roadmap, setRoadMap } = useContext(GoalContext)
@@ -92,7 +93,7 @@ const TaskList = () => {
             {
                 !roadmap && (
                     <>
-                        <h2>Goal Added Successfully!</h2>
+                        <GenericAlert variant={'warning'} body="Goal Added Successfully!" />
                         <p>Do you want ChatGPT to recommend tasks?</p>
                         <p className="legal">
                             <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as they might not be accurate.

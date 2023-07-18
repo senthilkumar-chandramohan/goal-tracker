@@ -1,34 +1,17 @@
 import GoalSummary from "./GoalSummary"
 
-const GoalSummaries = () => { 
-    const goal = {
-        text: 'Learn Generative AI',
-    }
-
+const GoalSummaries = () => {
     return (
         <>
-            <div className="row">
-              <div className="col">
-                <GoalSummary {...goal} />
-              </div>
-              <div className="col">
-                <GoalSummary {...goal} />
-              </div>
-              <div className="col">
-                <GoalSummary {...goal} />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <GoalSummary {...goal} />
-              </div>
-              <div className="col">
-                <GoalSummary {...goal} />
-              </div>
-              <div className="col">
-                <GoalSummary {...goal} />
-              </div>
-            </div>
+          <div className="row">
+            {
+              window.goals.map((goal, idx) => (
+                <div className="col-3">
+                  <GoalSummary id={goal.id} heading={goal.heading} />
+                </div>
+              ))
+            }
+          </div>
         </>
     )
 }

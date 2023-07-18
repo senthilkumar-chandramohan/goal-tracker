@@ -25,7 +25,7 @@ const NewGoalForm = () => {
                 </div>
                 <div className="row">
                     <div className="col-4">
-                        <label htmlFor="startDate">Starting on</label>
+                        <label htmlFor="startDate">Start Date</label>
                     </div>
                     <div className="col-8">
                         <DatePicker id="startDate" className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
