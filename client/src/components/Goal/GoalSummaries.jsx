@@ -30,6 +30,10 @@ const GoalSummaries = () => {
         weekMonthIdx += 1
       }
 
+      if (weekMonthIdx===goal.roadmap.length) {
+        return ' done' // All tasks are complete
+      }
+
       console.log("computed", (goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)))
       console.log("now", Date.now().valueOf())
 
