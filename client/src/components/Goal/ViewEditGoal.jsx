@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useCallback } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { GoalContext } from './GoalContext'
@@ -11,6 +11,9 @@ import { storeGoals } from '../../utils/storage'
 const ViewEditGoal = () => {
     const { goalInFocus, setGoalInFocus } = useContext(MainContext)
 
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
+
     const goal = window.goals.find(goal => goal.id === goalInFocus)
     const {
         heading,
@@ -22,8 +25,15 @@ const ViewEditGoal = () => {
     const [mode, setMode] = useState('view')
 
     const handleClose = () => {
-        setShow(false)
-        setGoalInFocus(null)
+        if (mode === 'view') {
+            setShow(false)
+            setGoalInFocus(null)
+        } else {
+            console.log("ASDASDASD")
+            setRoadMap(goalRoadmap)
+            setMode('view')
+            forceUpdate()
+        }
     }
 
     const handleGoalClick = () => {
@@ -31,6 +41,17 @@ const ViewEditGoal = () => {
             setMode('edit')
         } else {
             // Logic to save changes to Goal and Tasks
+            const heading = document.getElementById('heading').value
+            const description = document.getElementById('description').value
+            const startDate = new Date(document.getElementById('startDate').value).valueOf()
+
+            goal.heading = heading
+            goal.description = description
+            goal.startDate = startDate
+            goal.roadmap = roadmap
+            // Store updated goals object in local storage
+            storeGoals(window.goals)
+            setMode('view')
         }
     }
 
@@ -50,8 +71,8 @@ const ViewEditGoal = () => {
                     <TaskList />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleGoalClick}>{mode === 'view' ? 'Edit Goal' : 'Save Goal'}</Button>
-                    <Button variant="secondary" onClick={handleClose}>Close</Button>
+                    <Button variant="primary" onClick={handleGoalClick}>{mode === 'view' ? 'Edit Goal' : 'Save Changes'}</Button>
+                    <Button variant="secondary" onClick={handleClose}>{mode === 'view' ? 'Close' : 'Cancel'}</Button>
                 </Modal.Footer>
             </Modal>
         </GoalContext.Provider>

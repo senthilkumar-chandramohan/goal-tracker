@@ -5,12 +5,9 @@
 @Spring-Blossoms-Colorful-4-rgba: rgba(74, 217, 176, 1); // Light Green
 @Spring-Blossoms-Colorful-5-rgba: rgba(242, 237, 167, 1); // Yellow
 
+@error: rgba(255, 0, 0, 0.75);
 @white: #F5F5F5;
 @text: #040404;
-@font-face {
-    font-family: rubberstamp;
-    src: url("http://localhost:3001/stamp.ttf");
-}
 
 body {
     background-color: @Spring-Blossoms-Colorful-1-rgba !important;
@@ -60,13 +57,28 @@ p.legal {
 .goal-summary {
     text-align: center;
     font-weight: 600;
-    background-color: @Spring-Blossoms-Colorful-5-rgba;
+    background-color: @white;
     border-radius: 10px;
     position: relative;
     color: @Spring-Blossoms-Colorful-1-rgba;
     padding: 1rem;
     margin: 1rem 0;
     box-sizing: border-box;
+
+    &.due {
+        background-color: @Spring-Blossoms-Colorful-5-rgba;
+        color: @Spring-Blossoms-Colorful-1-rgba;
+    }
+
+    &.overdue {
+        background-color: @error;
+        color: @white;
+    }
+
+    &.done {
+        background-color: @Spring-Blossoms-Colorful-3-rgba;
+        color: @white;
+    }
 }
 
 /* Bootstrap modal override */
@@ -143,13 +155,13 @@ p.legal {
 
         .add-task {
             cursor: pointer;
-            margin: 0 0.5rem;
+            margin: 0 1rem;
         }
     }
 
     .task {
-        margin: 1.5rem 0;
-        padding: 0 3.5rem 0 0.5rem;
+        margin: 1.5rem 0.5rem;
+        padding: 0.5rem 4rem 0 0.5rem;
         position: relative;
 
         input[type="text"] {
@@ -186,8 +198,33 @@ p.legal {
         }
         &.read-only {
             cursor: pointer;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-radius: 5px;
+
             &::after {
-                top: 2px;
+                top: 8px;
+            }
+            
+            &.due {
+                background-color: @Spring-Blossoms-Colorful-5-rgba;
+                color: @Spring-Blossoms-Colorful-1-rgba;
+            }
+
+            &.overdue {
+                background-color: @error;
+                color: @Spring-Blossoms-Colorful-1-rgba;
+            }
+
+            &.done {
+                background-color: @Spring-Blossoms-Colorful-3-rgba !important;
+                color: @white !important;
+                &:hover {
+                    &::after {
+                        background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIyMHB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxNiAyMCIgd2lkdGg9IjE2cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48dGl0bGUvPjxkZXNjLz48ZGVmcy8+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSI+PGcgZmlsbD0iIzAwMDAwMCIgaWQ9IkNvcmUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC00MjQuMDAwMDAwLCAtNDYzLjAwMDAwMCkiPjxnIGlkPSJ1bmRvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MjQuMDAwMDAwLCA0NjQuMDAwMDAwKSI+PHBhdGggZD0iTTgsMyBMOCwtMC41IEwzLDQuNSBMOCw5LjUgTDgsNSBDMTEuMyw1IDE0LDcuNyAxNCwxMSBDMTQsMTQuMyAxMS4zLDE3IDgsMTcgQzQuNywxNyAyLDE0LjMgMiwxMSBMMCwxMSBDMCwxNS40IDMuNiwxOSA4LDE5IEMxMi40LDE5IDE2LDE1LjQgMTYsMTEgQzE2LDYuNiAxMi40LDMgOCwzIEw4LDMgWiIgaWQ9IlNoYXBlIi8+PC9nPjwvZz48L2c+PC9zdmc+");
+                        background-size: 100% 100%;
+                    }
+                }
             }
 
             &:hover {
@@ -196,7 +233,15 @@ p.legal {
                     background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9Ik91dGxpbmVkIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlLz48ZyBpZD0iRmlsbCI+PHBhdGggZD0iTTE2LDJBMTQsMTQsMCwxLDAsMzAsMTYsMTQsMTQsMCwwLDAsMTYsMlptMCwyNkExMiwxMiwwLDEsMSwyOCwxNiwxMiwxMiwwLDAsMSwxNiwyOFoiLz48cGF0aCBkPSJNMTMuMzgsMTkuNTlsLTMuMjktMy4zTDguNjcsMTcuNzEsMTIsMjFhMiwyLDAsMCwwLDEuNDIuNThBMiwyLDAsMCwwLDE0Ljc5LDIxbDguNTQtOC41NC0xLjQyLTEuNDFaIi8+PC9nPjwvc3ZnPg==");
                     height: 28px;
                     width: 28px;
+                    top: 6px;
                 }
+            }
+
+            p {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                padding: 0.5rem;
+                cursor: default;
             }
         }
     }

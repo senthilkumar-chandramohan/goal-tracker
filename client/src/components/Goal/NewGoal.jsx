@@ -43,7 +43,6 @@ const NewGoal = () => {
                     unit: weekOrMonth
                 },
                 timePerDay,
-                status: 'YTB',
                 roadmap: null,
             }
             
@@ -53,14 +52,14 @@ const NewGoal = () => {
 
             window.goals.push(newGoal)
             // Store updated goals object in local storage
-            storeGoals(goals)
+            storeGoals(window.goals)
             setGoalId(id)
         } else {
             const goal = window.goals.find(goal => goal.id === goalId)
             goal.roadmap = roadmap
             console.log(window.goals)
             // Store updated goals object in local storage
-            storeGoals(goals)
+            storeGoals(window.goals)
             setTaskAdded(true)
         }
     }

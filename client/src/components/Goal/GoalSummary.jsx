@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { MainContext } from "../MainContext"
 
-const GoalSummary = ({ id, heading }) => {
+const GoalSummary = ({ id, heading, status }) => {
     const { setGoalInFocus } = useContext(MainContext)
 
     const handleClick = () => {
@@ -9,7 +9,7 @@ const GoalSummary = ({ id, heading }) => {
     }
 
     return (
-        <button className="goal-summary" data-goal-id={id} onClick={handleClick}>
+        <button className={`goal-summary${status}`} data-goal-id={id} onClick={handleClick}>
             {heading}
         </button>
     )

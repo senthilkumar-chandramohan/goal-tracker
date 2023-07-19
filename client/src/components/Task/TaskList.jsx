@@ -12,6 +12,7 @@ const TaskList = () => {
         for (let i = 0; i < gptResponse.roadmap.length; i++) {
             for (let j=0; j < gptResponse.roadmap[i].tasks.length; j++) {
                 gptResponse.roadmap[i].tasks[j].duration = parseInt(gptResponse.roadmap[i].tasks[j].duration.substr(0,1))
+                gptResponse.roadmap[i].tasks[j].done = false // Set task complete status as false by default
             }
         }
 

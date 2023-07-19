@@ -1,13 +1,48 @@
 import { useContext, useState, useCallback } from 'react'
 import { GoalContext } from '../Goal/GoalContext'
 import GenericAlert from '../GenericAlert'
+import { storeGoals } from '../../utils/storage'
+
+const TIME = {
+    MS_PER_DAY: 86400000,
+    MS_PER_WEEK: 604800000,
+}
 
 const TaskGroup = ({ type, weekMonthIdx }) => {
     const [, updateState] = useState();
     const [errMsg, setErrMsg] = useState(null);
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const { roadmap, setRoadMap, mode } = useContext(GoalContext)
+    const { goalId, roadmap, setRoadMap, mode } = useContext(GoalContext)
+    const goal = window.goals.find(goal => goal.id === goalId)
+
+    const toggleTaskDone = (e) => {
+        const taskIndex = e.target.getAttribute('data-task-idx')
+        roadmap[weekMonthIdx].tasks[taskIndex].done = !roadmap[weekMonthIdx].tasks[taskIndex].done
+        goal.roadmap = roadmap
+        storeGoals(goals)
+        forceUpdate()
+    }
+
+    const handleTaskClick = (e) => {
+        e.stopPropagation()
+    }
+
+    const getTaskStatus = (taskDurationSum) => {
+        const goalStartDate = goal.startDate
+        const daysPerWeekOrWeeksPerMonth = type === 'week' ? 7 : 4
+        const msPerDayOrWeek = type === 'week' ? TIME.MS_PER_DAY : TIME.MS_PER_WEEK
+
+        let taskStatus = ''
+
+        if ((goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)) < Date.now().valueOf()) {
+            taskStatus = ' overdue'
+        } else if ((goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)) < (Date.now().valueOf() + TIME.MS_PER_DAY)) {
+            taskStatus = ' due'
+        }
+
+        return taskStatus
+    }
 
     const handleTaskHeadingClick = (elem) => {
         const group = document.getElementById(`${type}${elem.target.id.substr(type.length,1)}`)
@@ -28,7 +63,8 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
     const handleAddTask = (e) => {
         roadmap[weekMonthIdx].tasks.push({
             task: '',
-            duration: 1
+            duration: 1,
+            done: false
         })
         forceUpdate()
     }
@@ -61,7 +97,6 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
     }
 
     const handleTaskDurationChange = (elem) => {
-        // const weekMonthIdx = elem.target.getAttribute('data-week-month-idx')
         const taskIdx = elem.target.getAttribute('data-task-idx')
         const increment = elem.target.getAttribute('data-direction') === "up" ? true : false
 
@@ -78,7 +113,6 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
             }
         } else {
             // Display errorMsg
-            console.log(errorMsg)
             setErrMsg(errorMsg)
         }
 
@@ -103,6 +137,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
     }
 
     const groupId = `${type}${weekMonthIdx}`
+    let taskDurationSum = 0
 
     return (
         <div id={groupId} className="task-group">
@@ -118,10 +153,12 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
                         const duration = taskItem.duration
                         const unit = type === 'week' ? 'day' : 'week'
 
+                        taskDurationSum += duration
                         if (mode === 'view') {
+                            const taskStatus = getTaskStatus(taskDurationSum)
                             return (
-                                <div key={idx} className="task read-only" data-duration={`${duration} ${unit}${duration > 1 ?'s' : ''}`}>
-                                    <p>{taskItem.task}</p>
+                                <div key={idx} className={`task read-only${taskStatus}${taskItem.done ? ' done' : ''}`} data-task-idx={idx} data-duration={`${duration} ${unit}${duration > 1 ?'s' : ''}`} onClick={toggleTaskDone}>
+                                    <p onClick={handleTaskClick}>{taskItem.task}</p>
                                 </div>
                             )
                         } else { // mode = 'edit'
@@ -136,7 +173,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
                     })
                 }
                 {
-                    mode === 'edit' &&
+                    mode !== 'view' &&
                     canAddNewTask(weekMonthIdx) && (
                         <button className='add-task' onClick={handleAddTask}>Add Task</button>
                     )
