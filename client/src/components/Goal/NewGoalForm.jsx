@@ -58,37 +58,6 @@ const NewGoalForm = () => {
                         <input className="form-check-input" id="month" type="radio" name="unit" value="m" /> <label className="form-check-label" htmlFor="month">Month(s)</label>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-4">
-                        <label htmlFor="hours">Time/Day</label>
-                    </div>
-                    <div className="col-8">
-                        <select className="form-select" id="timePerDay" defaultValue="1">
-                            <option value="0.25">15 min</option>
-                            <option value="0.5">30 min</option>
-                            <option value="0.75">45 min</option>
-                            <option value="1">1 Hour</option>
-                            <option value="2">2 Hours</option>
-                            <option value="3">3 Hours</option>
-                            <option value="4">4 Hours</option>
-                            <option value="5">5 Hours</option>
-                            <option value="6">6 Hours</option>
-                            <option value="7">7 Hours</option>
-                            <option value="8">8 Hours</option>
-                        </select>
-                    </div>
-                </div>
-                {/* <div className="row">
-                    <div className="col-4">
-                        <label htmlFor="preferredTime">Preferred Time</label>
-                    </div>
-                    <div className="col-8">
-                        <select className="form-select" id="preferredTime">
-                            <option value="AM">Morning</option>
-                            <option value="PM">Evening</option>
-                        </select>
-                    </div>
-                </div> */}
             </div>
         </form>
     )

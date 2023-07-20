@@ -20,7 +20,6 @@ const GoalSummaries = () => {
       loop1:
       for (let i = 0; i < goal.roadmap.length; i++) {
         taskDurationSum = 0
-        loop2:
         for (let j = 0; j < goal.roadmap[i].tasks.length; j++) {
           taskDurationSum += goal.roadmap[i].tasks[j].duration
           if (!goal.roadmap[i].tasks[j].done) {
@@ -33,9 +32,6 @@ const GoalSummaries = () => {
       if (weekMonthIdx===goal.roadmap.length) {
         return ' done' // All tasks are complete
       }
-
-      console.log("computed", (goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)))
-      console.log("now", Date.now().valueOf())
 
       if ((goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)) < Date.now().valueOf()) {
           taskStatus = ' overdue'
@@ -57,7 +53,7 @@ const GoalSummaries = () => {
               const goalStatus = getGoalStatus(goal)
               return (
                 <div className="col-3">
-                  <GoalSummary id={goal.id} heading={goal.heading} status={goalStatus} />
+                  <GoalSummary key={idx} id={goal.id} heading={goal.heading} status={goalStatus} />
                 </div>
               )
             })

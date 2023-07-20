@@ -8,10 +8,12 @@ import { GoalContext } from './GoalContext'
 import { storeGoals } from '../../utils/storage'
 
 const NewGoal = () => {
+    const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const [goalId, setGoalId] = useState(null)
     const [roadmap, setRoadMap] = useState(null)
     const [taskAdded, setTaskAdded] = useState(false)
+    const [taskInitiated, setTaskInitiated] = useState(false)
 
     const handleClose = () => {
         setRoadMap(null)
@@ -31,7 +33,6 @@ const NewGoal = () => {
             const count = parseInt(document.getElementById('count').value)
             const week = document.getElementById('week')
             const weekOrMonth = week.checked ? 'week' : 'month'
-            const timePerDay = parseFloat(document.getElementById('timePerDay').value)
 
             const newGoal = {
                 id,
@@ -42,7 +43,6 @@ const NewGoal = () => {
                     count,
                     unit: weekOrMonth
                 },
-                timePerDay,
                 roadmap: null,
             }
             
@@ -65,7 +65,7 @@ const NewGoal = () => {
     }
 
     return (
-        <GoalContext.Provider value={{ goalId, roadmap, setRoadMap }}>
+        <GoalContext.Provider value={{ goalId, roadmap, setRoadMap, setTaskInitiated, loading, setLoading }}>
             <button
                 className="add-goal"
                 onClick={handleShow}
@@ -78,6 +78,15 @@ const NewGoal = () => {
                 backdrop="static"
                 keyboard={false}
             >
+                {
+                    loading && (
+                        <div className='loading-spinner'>
+                            <div class="spinner-border m-5" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    )
+                }
                 <Modal.Header closeButton>
                     <Modal.Title>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal'}</Modal.Title>
                 </Modal.Header>
@@ -91,7 +100,7 @@ const NewGoal = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>{ goalId ? 'Close' : 'Cancel'}</Button>
-                    <Button variant="primary" onClick={handleAddGoalTasks}>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal' }</Button>
+                    <Button disabled={goalId && !taskInitiated} variant="primary" onClick={handleAddGoalTasks}>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal' }</Button>
                 </Modal.Footer>
             </Modal>
         </GoalContext.Provider>

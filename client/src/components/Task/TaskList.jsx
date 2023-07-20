@@ -2,10 +2,10 @@ import { useContext } from 'react'
 import Button from 'react-bootstrap/Button'
 import TaskGroup from './TaskGroup'
 import { GoalContext } from '../Goal/GoalContext'
-import GenericAlert from '../GenericAlert'
+// import GenericAlert from '../GenericAlert'
 
 const TaskList = () => {
-    const { goalId, roadmap, setRoadMap } = useContext(GoalContext)
+    const { goalId, roadmap, setRoadMap, mode, setMode, setLoading, setTaskInitiated } = useContext(GoalContext)
     const goal = window.goals.find(goal => goal.id === goalId)
 
     const cleanseResponse = (gptResponse) => {
@@ -37,16 +37,9 @@ const TaskList = () => {
         }
 
         setRoadMap(defaultRoadmap)
-        console.log(roadmap)
-    }
-
-    const getTimePerDayText = (timePerDay) => {
-        if (timePerDay > 1) {
-            return `${timePerDay} hours`
-        } else if (timePerDay === 1) {
-            return '1 hour'
-        } else {
-            return `${timePerDay*60} minutes`
+        setTaskInitiated(true)
+        if (mode === 'view') {
+            setMode('edit')
         }
     }
 
@@ -57,20 +50,18 @@ const TaskList = () => {
                 count,
                 unit,
             },
-            timePerDay,
         } = goal
 
         const deadline = `${ count } ${ unit }${ count === 1 ? "" : "s" }`
-        const timePerDayText = getTimePerDayText(timePerDay)
 
         const getTasksBody = {
             heading,
             deadline,
-            timePerDay: timePerDayText,
         }
 
         console.log(getTasksBody)
 
+        setLoading(true)
         fetch('http://localhost:4000/get-tasks', {
             method: 'POST',
             headers: {
@@ -85,6 +76,12 @@ const TaskList = () => {
             const gptResponse = JSON.parse(data.data.content)
             const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
             setRoadMap(cleansedResponse.roadmap)
+            setLoading(false)
+            setTaskInitiated(true)
+            
+            if (mode === 'view') {
+                setMode('edit')
+            }
         })
         .catch(err=>console.log(err))
     }
@@ -94,7 +91,14 @@ const TaskList = () => {
             {
                 !roadmap && (
                     <>
-                        <GenericAlert variant={'warning'} body="Goal Added Successfully!" />
+                        {/* {
+                            mode !== 'view' &&
+                            <GenericAlert variant={'warning'} body="Goal Added Successfully!" />
+                        } */}
+                        {
+                            mode === 'edit' &&
+                            <hr />
+                        }
                         <p>Do you want ChatGPT to recommend tasks?</p>
                         <p className="legal">
                             <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as they might not be accurate.

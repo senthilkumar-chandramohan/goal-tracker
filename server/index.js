@@ -60,18 +60,14 @@ app.post("/get-tasks", async (req, res) => {
         const {
             heading,
             deadline,
-            timePerDay,
         } = req.body
 
         console.log(req.body)
 
         const gptSampleJSONTemplate = deadline.includes("week") ? gptSampleJsonTemplates.week : gptSampleJsonTemplates.month
         
-        const query = `Provide roadmap with time taken for each step and breakdown of tasks to ${heading} in ${deadline}, spending ${timePerDay} a day, in below JSON format
+        const query = `Provide roadmap with time taken for each step and breakdown of tasks to ${heading} in ${deadline}, in below JSON format
         ${gptSampleJSONTemplate}`
-
-        // const query = `Can you provide me step-by-step roadmap, formatted as JSON, as shown below, with time taken for each step and breakdown of tasks to ${heading} within a span of ${deadline}?
-        // ${gptSampleJSONTemplate}`
 
         console.log(query)
 

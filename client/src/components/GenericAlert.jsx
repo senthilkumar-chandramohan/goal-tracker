@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Alert from 'react-bootstrap/Alert'
 
 const GenericAlert = ({ variant, body }) => {
@@ -27,5 +28,10 @@ const GenericAlert = ({ variant, body }) => {
         </>
     );
 };
+
+GenericAlert.propTypes = {
+    variant: PropTypes.string,
+    body: PropTypes.string,
+}
 
 export default GenericAlert

@@ -9,6 +9,8 @@ import TaskList from '../Task/TaskList'
 import { storeGoals } from '../../utils/storage'
 
 const ViewEditGoal = () => {
+    const [taskInitiated, setTaskInitiated] = useState(false)
+    const [loading, setLoading] = useState(false)
     const { goalInFocus, setGoalInFocus } = useContext(MainContext)
 
     const [, updateState] = useState();
@@ -29,7 +31,7 @@ const ViewEditGoal = () => {
             setShow(false)
             setGoalInFocus(null)
         } else {
-            console.log("ASDASDASD")
+            console.log(goalRoadmap)
             setRoadMap(goalRoadmap)
             setMode('view')
             forceUpdate()
@@ -55,20 +57,44 @@ const ViewEditGoal = () => {
         }
     }
 
+    const handleDeleteGoal = () => {
+        const conf = confirm("Sure you want to delete this goal?")
+
+        if (conf) {
+            const goalIndex = window.goals.findIndex(goal => goal.id === goalInFocus)
+            window.goals.splice(goalIndex, 1)
+            storeGoals(window.goals)
+            setShow(false)
+            setGoalInFocus(null)
+        }
+    }
+
     return (
-        <GoalContext.Provider value={{ goalId: goalInFocus, roadmap, setRoadMap, mode }}>
+        <GoalContext.Provider value={{ goalId: goalInFocus, roadmap, setRoadMap, mode, setMode, loading, setLoading, setTaskInitiated }}>
             <Modal
                 show={show}
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
             >
+                {
+                    loading && (
+                        <div className='loading-spinner'>
+                            <div class="spinner-border m-5" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    )
+                }
                 <Modal.Header closeButton>
                     <Modal.Title>{heading}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ViewEditGoalForm />
                     <TaskList />
+                    <div className='delete-goal'>
+                        <button onClick={handleDeleteGoal}>Delete Goal</button>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleGoalClick}>{mode === 'view' ? 'Edit Goal' : 'Save Changes'}</Button>
