@@ -17,8 +17,16 @@ function App() {
           <MainScreen />
         </div>
       </main>
-      <footer className="row">
-        <div className="col-12">Footer</div>
+      <footer className="row footer">
+        <div className="col-8">
+          &copy; Senthil Chandramohan
+        </div>
+        <div className="col-2">
+          <a className="github" target="_blank" href="https://github.com/senthilkumar-chandramohan">Github</a>
+        </div>
+        <div className="col-2">
+          <a className="linkedin" target="_blank" href="https://www.linkedin.com/in/senthilkumar-chandramohan/">LinkedIn</a>
+        </div>
       </footer>
     </div>
   )

@@ -22,8 +22,9 @@ const ViewEditGoal = () => {
         roadmap: goalRoadmap,
     } = goal
 
+    const goalRoadmapClone = JSON.parse(JSON.stringify(goalRoadmap))
     const [show, setShow] = useState(true)
-    const [roadmap, setRoadMap] = useState(goalRoadmap)
+    const [roadmap, setRoadMap] = useState(goalRoadmapClone)
     const [mode, setMode] = useState('view')
 
     const handleClose = () => {
@@ -31,7 +32,6 @@ const ViewEditGoal = () => {
             setShow(false)
             setGoalInFocus(null)
         } else {
-            console.log(goalRoadmap)
             setRoadMap(goalRoadmap)
             setMode('view')
             forceUpdate()

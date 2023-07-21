@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import NewGoalForm from './NewGoalForm'
 import TaskList from '../Task/TaskList'
 import { GoalContext } from './GoalContext'
+import { MainContext } from '../MainContext'
 
 import { storeGoals } from '../../utils/storage'
 
 const NewGoal = () => {
+    const { forceMainScreenUpdate } = useContext(MainContext)
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const [goalId, setGoalId] = useState(null)
@@ -20,6 +22,7 @@ const NewGoal = () => {
         setGoalId(null)
         setTaskAdded(false)
         setShow(false)
+        forceMainScreenUpdate(null)
     }
 
     const handleShow = () => setShow(true)
@@ -99,8 +102,8 @@ const NewGoal = () => {
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>{ goalId ? 'Close' : 'Cancel'}</Button>
                     <Button disabled={goalId && !taskInitiated} variant="primary" onClick={handleAddGoalTasks}>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal' }</Button>
+                    <Button variant="secondary" onClick={handleClose}>{ goalId ? 'Close' : 'Cancel'}</Button>
                 </Modal.Footer>
             </Modal>
         </GoalContext.Provider>
