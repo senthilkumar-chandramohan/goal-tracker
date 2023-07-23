@@ -16,7 +16,7 @@ const ViewEditGoal = () => {
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const goal = window.goals.find(goal => goal.id === goalInFocus)
+    const goal = window.goals.find(goal => goal.id === goalInFocus.id)
     const {
         heading,
         roadmap: goalRoadmap,
@@ -61,7 +61,7 @@ const ViewEditGoal = () => {
         const conf = confirm("Sure you want to delete this goal?")
 
         if (conf) {
-            const goalIndex = window.goals.findIndex(goal => goal.id === goalInFocus)
+            const goalIndex = window.goals.findIndex(goal => goal.id === goalInFocus.id)
             window.goals.splice(goalIndex, 1)
             storeGoals(window.goals)
             setShow(false)
@@ -70,7 +70,7 @@ const ViewEditGoal = () => {
     }
 
     return (
-        <GoalContext.Provider value={{ goalId: goalInFocus, roadmap, setRoadMap, mode, setMode, loading, setLoading, setTaskInitiated }}>
+        <GoalContext.Provider value={{ goalId: goalInFocus.id, roadmap, setRoadMap, mode, setMode, loading, setLoading, setTaskInitiated }}>
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -87,7 +87,7 @@ const ViewEditGoal = () => {
                     )
                 }
                 <Modal.Header closeButton>
-                    <Modal.Title>{heading}</Modal.Title>
+                    <Modal.Title className={goalInFocus.status}>{heading}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ViewEditGoalForm />

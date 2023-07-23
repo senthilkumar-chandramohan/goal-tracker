@@ -5,7 +5,7 @@ const GoalSummary = ({ id, heading, status }) => {
     const { setGoalInFocus } = useContext(MainContext)
 
     const handleClick = () => {
-        setGoalInFocus(id)
+        setGoalInFocus({id, status})
     }
 
     return (

@@ -53,13 +53,10 @@ const TaskList = () => {
         } = goal
 
         const deadline = `${ count } ${ unit }${ count === 1 ? "" : "s" }`
-
         const getTasksBody = {
             heading,
             deadline,
         }
-
-        console.log(getTasksBody)
 
         setLoading(true)
         fetch('http://localhost:4000/get-tasks', {
@@ -70,20 +67,27 @@ const TaskList = () => {
             },
             body: JSON.stringify(getTasksBody),
         })
-        .then(response=>response.json())
-        .then(data => {
-            console.log(data.data.content)
-            const gptResponse = JSON.parse(data.data.content)
-            const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
-            setRoadMap(cleansedResponse.roadmap)
-            setLoading(false)
-            setTaskInitiated(true)
-            
-            if (mode === 'view') {
-                setMode('edit')
+        .then(response => {
+            if (response.status === 200) {
+                const data = response.json()
+                const gptResponse = JSON.parse(data.data.content)
+                const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
+                setRoadMap(cleansedResponse.roadmap)
+                setLoading(false)
+                setTaskInitiated(true)
+                
+                if (mode === 'view') {
+                    setMode('edit')
+                }
+            } else {
+                alert("Error loading ChatGPT recommendations, please try again!")
+                setLoading(false)
             }
         })
-        .catch(err=>console.log(err))
+        .catch(() => {
+            alert("Error loading ChatGPT recommendations, please try again!")
+            setLoading(false)
+        })
     }
 
     return (
@@ -91,17 +95,14 @@ const TaskList = () => {
             {
                 !roadmap && (
                     <>
-                        {/* {
-                            mode !== 'view' &&
-                            <GenericAlert variant={'warning'} body="Goal Added Successfully!" />
-                        } */}
                         {
                             mode === 'edit' &&
                             <hr />
                         }
-                        <p>Do you want ChatGPT to recommend tasks?</p>
+                        <br />
+                        <h6>Do you want ChatGPT to recommend tasks?</h6>
                         <p className="legal">
-                            <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as they might not be accurate.
+                            <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as they might be inaccurate.
                         </p>
                         <div>
                             <Button variant="primary" onClick={handleGetGPTRecommendations}>Yes</Button>

@@ -7,8 +7,8 @@ const GoalSummaries = () => {
   }
 
   const getGoalStatus = (goal) => {
+    let goalStatus = ''
     if (goal.roadmap) {
-      let taskStatus = ''
       const type = goal.roadmap[0].week ? 'week' : 'month'
       const goalStartDate = goal.startDate
 
@@ -29,30 +29,31 @@ const GoalSummaries = () => {
         weekMonthIdx += 1
       }
 
-      if (weekMonthIdx===goal.roadmap.length) {
+      if (weekMonthIdx === goal.roadmap.length) {
         return ' done' // All tasks are complete
       }
 
       if ((goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)) < Date.now().valueOf()) {
-          taskStatus = ' overdue'
+          goalStatus = ' overdue'
       } else if ((goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (taskDurationSum * msPerDayOrWeek)) < (Date.now().valueOf() + TIME.MS_PER_DAY)) {
-          taskStatus = ' due'
+          goalStatus = ' due'
       }
-
-      return taskStatus
     } else {
-      return ''
+      goalStatus = ' due'
     }
+
+    return goalStatus
   }
 
   return (
       <>
         <div className="row">
           {
-            window.goals.map((goal, idx) => {
+            window.goals && window.goals.map((goal, idx) => {
               const goalStatus = getGoalStatus(goal)
+
               return (
-                <div className="col-3">
+                <div className="col">
                   <GoalSummary key={idx} id={goal.id} heading={goal.heading} status={goalStatus} />
                 </div>
               )
