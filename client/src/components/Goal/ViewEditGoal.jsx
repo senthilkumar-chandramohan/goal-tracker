@@ -74,8 +74,6 @@ const ViewEditGoal = () => {
             <Modal
                 show={show}
                 onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
             >
                 {
                     loading && (
@@ -92,9 +90,17 @@ const ViewEditGoal = () => {
                 <Modal.Body>
                     <ViewEditGoalForm />
                     <TaskList />
-                    <div className='delete-goal'>
-                        <button onClick={handleDeleteGoal}>Delete Goal</button>
-                    </div>
+                    {
+                        mode === 'view' && (
+                            <div className="container">
+                                <div className="row">
+                                    <div className='col-12 delete-goal'>
+                                        <button onClick={handleDeleteGoal}>Delete Goal</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleGoalClick}>{mode === 'view' ? 'Edit Goal' : 'Save Changes'}</Button>

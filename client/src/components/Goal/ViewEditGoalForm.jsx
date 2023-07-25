@@ -13,9 +13,7 @@ const ViewEditGoalForm = () => {
     } = goal
     const [newStartDate, setNewStartDate] = useState(startDate)
     const readOnly = mode === 'view' ? true : false
-
     const startDateObj = new Date(startDate)
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
     return (
         <form autoComplete="off">
@@ -31,26 +29,42 @@ const ViewEditGoalForm = () => {
                     </div>
                 }
                 {
-                    !(readOnly && !description) &&
+                    !(readOnly && !description) && (
+                        <>
+                        {
+                            readOnly && (
+                                <div className="row">
+                                    <div className="col-12">
+                                        {description}
+                                    </div>
+                                </div>
+                            )
+                        }
+                        {
+                            !readOnly && (
+                                <div className="row">
+                                    <div className="col-4">
+                                        <label className="form-label" htmlFor="description">Description</label>
+                                    </div>
+                                    <div className="col-8">
+                                        <textarea className="form-control" id="description" rows="6" cols="30" defaultValue={description}></textarea>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        </>
+                    )
+                }
+                { !readOnly &&
                     <div className="row">
                         <div className="col-4">
-                            <label className="form-label" htmlFor="description">Description</label>
+                            <label htmlFor="startDate">Start Date</label>
                         </div>
                         <div className="col-8">
-                            { readOnly && description }
-                            { !readOnly && <textarea className="form-control" id="description" rows="6" cols="30" defaultValue={description}></textarea>}
+                            <DatePicker id="startDate" className="form-control" selected={newStartDate} onChange={(date) => setNewStartDate(date)} />
                         </div>
                     </div>
                 }
-                <div className="row">
-                    <div className="col-4">
-                        <label htmlFor="startDate">Start Date</label>
-                    </div>
-                    <div className="col-8">
-                        { readOnly && startDateObj.getDate() + '-' +  monthNames[startDateObj.getMonth()]+ '-' + startDateObj.getFullYear()}
-                        { !readOnly && <DatePicker id="startDate" className="form-control" selected={newStartDate} onChange={(date) => setNewStartDate(date)} />}
-                    </div>
-                </div>
             </div>
         </form>
     )

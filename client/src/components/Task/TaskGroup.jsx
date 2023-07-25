@@ -2,6 +2,7 @@ import { useContext, useState, useCallback } from 'react'
 import { GoalContext } from '../Goal/GoalContext'
 import GenericAlert from '../GenericAlert'
 import { storeGoals } from '../../utils/storage'
+import { getDateInDDMONFormat } from '../../utils/date'
 
 const TIME = {
     MS_PER_DAY: 86400000,
@@ -62,7 +63,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
 
     const handleAddTask = (e) => {
         roadmap[weekMonthIdx].tasks.push({
-            task: '',
+            task: 'New Task',
             duration: 1,
             done: false
         })
@@ -136,12 +137,23 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
         }
     }
 
+    const getWeekOrMonthRange = () => {
+        const goalStartDate = goal.startDate
+        const daysPerWeekOrWeeksPerMonth = type === 'week' ? 7 : 4
+        const msPerDayOrWeek = type === 'week' ? TIME.MS_PER_DAY : TIME.MS_PER_WEEK
+
+        const startDate = goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek)
+        const endDate = goalStartDate + (weekMonthIdx * daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) + (daysPerWeekOrWeeksPerMonth * msPerDayOrWeek) - TIME.MS_PER_DAY
+
+        return `${getDateInDDMONFormat(new Date(startDate))} to ${getDateInDDMONFormat(new Date(endDate))}`
+    }
+
     const groupId = `${type}${weekMonthIdx}`
     let taskDurationSum = 0
 
     return (
         <div id={groupId} className="task-group">
-            <div id={`${groupId}Heading`} className="heading" onClick={handleTaskHeadingClick}>{type} {weekMonthIdx+1}</div>
+            <div id={`${groupId}Heading`} className="heading" onClick={handleTaskHeadingClick}>{type} {weekMonthIdx+1} ({getWeekOrMonthRange()})</div>
             <div id={`${groupId}Content`} className="content">
                 {
                     errMsg && (

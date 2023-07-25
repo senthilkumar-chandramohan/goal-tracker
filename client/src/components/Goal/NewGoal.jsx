@@ -60,7 +60,6 @@ const NewGoal = () => {
         } else {
             const goal = window.goals.find(goal => goal.id === goalId)
             goal.roadmap = roadmap
-            console.log(window.goals)
             // Store updated goals object in local storage
             storeGoals(window.goals)
             setTaskAdded(true)
@@ -71,6 +70,7 @@ const NewGoal = () => {
         <GoalContext.Provider value={{ goalId, roadmap, setRoadMap, setTaskInitiated, loading, setLoading }}>
             <button
                 className="add-goal"
+                title="Add Goal"
                 onClick={handleShow}
             >
             </button>
@@ -84,8 +84,8 @@ const NewGoal = () => {
                 {
                     loading && (
                         <div className='loading-spinner'>
-                            <div class="spinner-border m-5" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                            <div className="spinner-border m-5" role="status">
+                                <span className="visually-hidden">Loading...</span>
                             </div>
                         </div>
                     )

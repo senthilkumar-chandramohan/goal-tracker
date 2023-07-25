@@ -110,7 +110,8 @@ p.legal {
 .modal .col-3,
 .modal .col-4,
 .modal .col-6,
-.modal .col-8 {
+.modal .col-8,
+.modal .col-12 {
   box-sizing: border-box;
   padding: 0.5rem;
 }
@@ -296,7 +297,7 @@ p.legal {
   content: "DONE";
   color: #2da69a;
   height: 100%;
-  width: 74px;
+  width: 80px;
   position: absolute;
   top: 0px;
   right: 0;
@@ -304,4 +305,5 @@ p.legal {
   line-height: 1.5rem;
   transform: rotate(-15deg);
   font-weight: bold;
+  text-align: center;
 }

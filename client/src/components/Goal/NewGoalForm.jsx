@@ -12,7 +12,7 @@ const NewGoalForm = () => {
                         <label className="form-label" htmlFor="heading">Heading</label>
                     </div>
                     <div className="col-8">
-                        <input className="form-control" id="heading" type="text" placeholder="e.g. Learn Guitar, Become fit" maxLength={30} required />
+                        <input className="form-control" id="heading" type="text" placeholder="e.g. Learn Guitar, Become fit" maxLength={30} required autoFocus />
                     </div>
                 </div>
                 <div className="row">

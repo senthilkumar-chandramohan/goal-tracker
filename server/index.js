@@ -33,7 +33,7 @@ app.post("/get-tasks", async (req, res) => {
             messages: [
                 {"role": "user", "content": query}
             ],
-        });
+        })
 
         if (response.status === 200) {
             return res.status(200).json({

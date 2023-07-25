@@ -67,9 +67,9 @@ const TaskList = () => {
             },
             body: JSON.stringify(getTasksBody),
         })
-        .then(response => {
+        .then(async response => {
             if (response.status === 200) {
-                const data = response.json()
+                const data = await response.json()
                 const gptResponse = JSON.parse(data.data.content)
                 const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
                 setRoadMap(cleansedResponse.roadmap)
@@ -94,22 +94,26 @@ const TaskList = () => {
         <>
             {
                 !roadmap && (
-                    <>
-                        {
-                            mode === 'edit' &&
-                            <hr />
-                        }
-                        <br />
-                        <h6>Do you want ChatGPT to recommend tasks?</h6>
-                        <p className="legal">
-                            <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as they might be inaccurate.
-                        </p>
-                        <div>
-                            <Button variant="primary" onClick={handleGetGPTRecommendations}>Yes</Button>
-                            &nbsp;
-                            <Button variant="secondary" onClick={handleManuallyAddTasks}>No</Button>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                {
+                                    mode === 'edit' &&
+                                    <hr />
+                                }
+                                <br />
+                                <h6>Do you want ChatGPT to recommend tasks?</h6>
+                                <p className="legal">
+                                    <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as tasks and timeframe indicated might be inaccurate.
+                                </p>
+                                <div>
+                                    <Button variant="primary" onClick={handleGetGPTRecommendations}>Yes</Button>
+                                    &nbsp;
+                                    <Button variant="secondary" onClick={handleManuallyAddTasks}>No</Button>
+                                </div>
+                            </div>
                         </div>
-                    </>
+                    </div>
                 )
             }
             {
