@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import Button from 'react-bootstrap/Button'
 import TaskGroup from './TaskGroup'
 import { GoalContext } from '../Goal/GoalContext'
-// import GenericAlert from '../GenericAlert'
 
 const TaskList = () => {
     const { goalId, roadmap, setRoadMap, mode, setMode, setLoading, setTaskInitiated } = useContext(GoalContext)
@@ -59,7 +58,7 @@ const TaskList = () => {
         }
 
         setLoading(true)
-        fetch('http://localhost:4000/get-tasks', {
+        fetch(`${import.meta.env.VITE_SERVER_URI}/get-tasks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
