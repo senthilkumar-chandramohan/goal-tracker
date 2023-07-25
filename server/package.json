@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "openai_prepare_data": "openai tools fine_tunes.prepare_data -f ./training/data.jsonl"
+    "openai_prepare_data": "openai tools fine_tunes.prepare_data -f ./training/data.jsonl",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
