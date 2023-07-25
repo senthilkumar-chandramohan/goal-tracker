@@ -1,4 +1,6 @@
 import { useContext, useState, useCallback } from 'react'
+import PropTypes from 'prop-types'
+
 import { GoalContext } from '../Goal/GoalContext'
 import GenericAlert from '../GenericAlert'
 import { storeGoals } from '../../utils/storage'
@@ -21,7 +23,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
         const taskIndex = e.target.getAttribute('data-task-idx')
         roadmap[weekMonthIdx].tasks[taskIndex].done = !roadmap[weekMonthIdx].tasks[taskIndex].done
         goal.roadmap = roadmap
-        storeGoals(goals)
+        storeGoals(window.goals)
         forceUpdate()
     }
 
@@ -61,7 +63,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
         return availableSlots > 0 ? true : false
     }
 
-    const handleAddTask = (e) => {
+    const handleAddTask = () => {
         roadmap[weekMonthIdx].tasks.push({
             task: 'New Task',
             duration: 1,
@@ -193,6 +195,11 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
             </div>
         </div>
     )
+}
+
+TaskGroup.propTypes = {
+    type: PropTypes.string,
+    weekMonthIdx: PropTypes.number,
 }
 
 export default TaskGroup

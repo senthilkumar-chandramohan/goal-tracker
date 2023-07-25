@@ -53,7 +53,7 @@ const GoalSummaries = () => {
               const goalStatus = getGoalStatus(goal)
 
               return (
-                <div className="col">
+                <div key={idx} className="col">
                   <GoalSummary key={idx} id={goal.id} heading={goal.heading} status={goalStatus} />
                 </div>
               )

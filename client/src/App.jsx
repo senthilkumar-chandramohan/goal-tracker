@@ -22,10 +22,10 @@ function App() {
           &copy; Senthil Chandramohan
         </div>
         <div className="col-2">
-          <a className="github" target="_blank" href="https://github.com/senthilkumar-chandramohan">Github</a>
+          <a className="github" target="_blank" rel="noreferrer" href="https://github.com/senthilkumar-chandramohan">Github</a>
         </div>
         <div className="col-2">
-          <a className="linkedin" target="_blank" href="https://www.linkedin.com/in/senthilkumar-chandramohan/">LinkedIn</a>
+          <a className="linkedin" target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/senthilkumar-chandramohan/">LinkedIn</a>
         </div>
       </footer>
     </div>

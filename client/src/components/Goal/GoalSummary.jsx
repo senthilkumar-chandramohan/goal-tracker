@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import PropTypes from 'prop-types'
 import { MainContext } from "../MainContext"
 
 const GoalSummary = ({ id, heading, status }) => {
@@ -13,6 +14,12 @@ const GoalSummary = ({ id, heading, status }) => {
             {heading}
         </button>
     )
+}
+
+GoalSummary.propTypes = {
+    id: PropTypes.number,
+    heading: PropTypes.string,
+    status: PropTypes.string,
 }
 
 export default GoalSummary

@@ -9,7 +9,7 @@ import TaskList from '../Task/TaskList'
 import { storeGoals } from '../../utils/storage'
 
 const ViewEditGoal = () => {
-    const [taskInitiated, setTaskInitiated] = useState(false)
+    const [, setTaskInitiated] = useState(false)
     const [loading, setLoading] = useState(false)
     const { goalInFocus, setGoalInFocus } = useContext(MainContext)
 
@@ -77,9 +77,9 @@ const ViewEditGoal = () => {
             >
                 {
                     loading && (
-                        <div className='loading-spinner'>
-                            <div class="spinner-border m-5" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                        <div className="loading-spinner">
+                            <div className="spinner-border m-5" role="status">
+                                <span className="visually-hidden">Loading...</span>
                             </div>
                         </div>
                     )

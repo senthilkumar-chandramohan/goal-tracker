@@ -13,7 +13,6 @@ const ViewEditGoalForm = () => {
     } = goal
     const [newStartDate, setNewStartDate] = useState(startDate)
     const readOnly = mode === 'view' ? true : false
-    const startDateObj = new Date(startDate)
 
     return (
         <form autoComplete="off">
