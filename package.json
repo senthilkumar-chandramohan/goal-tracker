@@ -23,6 +23,9 @@
     "express": "^4.18.2",
     "openai": "^3.3.0"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
   "bugs": {
     "url": "https://github.com/senthilkumar-chandramohan/goal-tracker/issues"
   },
