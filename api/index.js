@@ -46,6 +46,7 @@ app.post("/stream-tasks", async (req, res) => {
     )
 
     res.setHeader("Content-Type", "text/event-stream")
+    res.setHeader("Access-Control-Allow-Origin", "*")
     response.data.pipe(res)
   } catch (error) {
     res.status(500).json({
