@@ -58,34 +58,50 @@ const TaskList = () => {
         }
 
         setLoading(true)
-        fetch(`${import.meta.env.VITE_SERVER_URI}/get-tasks`, {
+        const jsonStr = []
+
+        fetch(`${import.meta.env.VITE_SERVER_URI}/stream-tasks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                'Accept': 'text/event-stream',
             },
-            body: JSON.stringify(getTasksBody),
+            body: JSON.stringify(getTasksBody)
         })
-        .then(async response => {
+        .then(response => {
             if (response.status === 200) {
-                const data = await response.json()
-                const gptResponse = JSON.parse(data.data.content)
-                const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
-                setRoadMap(cleansedResponse.roadmap)
-                setLoading(false)
-                setTaskInitiated(true)
-                
-                if (mode === 'view') {
-                    setMode('edit')
-                }
+                return response.text()
             } else {
                 alert("Error loading ChatGPT recommendations, please try again!")
                 setLoading(false)
+                return null
             }
         })
-        .catch(() => {
-            alert("Error loading ChatGPT recommendations, please try again!")
-            setLoading(false)
+        .then(text => {
+            try {
+                if (text) {
+                    const regex = /\"content\"/gi
+                    let result
+
+                    // Collect all text inside value of "content" key in streamed text
+                    while ( (result = regex.exec(text)) ) {
+                        jsonStr.push(text.substring(result.index + 11, text.indexOf("\"finish_reason", result.index) - 3))
+                    }
+
+                    const gptResponse = JSON.parse(jsonStr.join("").replace(/\\n/g,"").replace(/\\/g,""))
+                    const cleansedResponse = cleanseResponse(gptResponse) // Remove all "days/weeks" from response
+                    setRoadMap(cleansedResponse.roadmap)
+                    setLoading(false)
+                    setTaskInitiated(true)
+                    
+                    if (mode === 'view') {
+                        setMode('edit')
+                    }
+                }
+            } catch {
+                alert("Error loading ChatGPT recommendations, please try again!")
+                setLoading(false)
+            }
         })
     }
 
