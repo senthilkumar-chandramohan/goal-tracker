@@ -60,7 +60,7 @@ const TaskList = () => {
         setLoading(true)
         const jsonStr = []
 
-        fetch(`${import.meta.env.VITE_SERVER_URI}/stream-tasks`, {
+        fetch(`${import.meta.env.VITE_SERVER_URI}/stream-tasks2`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
