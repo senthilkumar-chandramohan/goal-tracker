@@ -304,6 +304,6 @@ p.legal {
   border: solid 4px #2da69a;
   line-height: 1.5rem;
   transform: rotate(-15deg);
-  font-weight: bold;
   text-align: center;
+  font-weight: bold;
 }
