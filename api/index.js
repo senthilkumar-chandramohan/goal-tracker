@@ -47,7 +47,6 @@ app.post("/stream-tasks", async (req, res) => {
     while (true) {
       const {value, done} = await reader.read();
       if (done) break;
-      console.log('Received', value);
       res.write(value)
     }
     res.end()
@@ -63,7 +62,3 @@ app.post("/stream-tasks", async (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on port ${port}...`)
 })
-
-export const config = {
-  runtime: "edge"
-}
