@@ -16,6 +16,7 @@ const NewGoal = () => {
     const [roadmap, setRoadMap] = useState(null)
     const [taskAdded, setTaskAdded] = useState(false)
     const [taskInitiated, setTaskInitiated] = useState(false)
+    const [flashMessage, setFlashMessage] = useState("")
 
     const handleClose = () => {
         setRoadMap(null)
@@ -23,6 +24,13 @@ const NewGoal = () => {
         setTaskAdded(false)
         setShow(false)
         forceMainScreenUpdate(null)
+    }
+
+    const showFlashMessage = (message, timeout) => {
+        setFlashMessage(message)
+        setTimeout(()=>{
+            setFlashMessage("")
+        }, timeout)
     }
 
     const handleShow = () => setShow(true)
@@ -57,12 +65,17 @@ const NewGoal = () => {
             // Store updated goals object in local storage
             storeGoals(window.goals)
             setGoalId(id)
+            showFlashMessage("Goal added!", 2000)
         } else {
             const goal = window.goals.find(goal => goal.id === goalId)
             goal.roadmap = roadmap
             // Store updated goals object in local storage
             storeGoals(window.goals)
             setTaskAdded(true)
+            showFlashMessage("Saving...", 500)
+            window.setTimeout(()=>{
+                showFlashMessage("Changes saved!", 2000)
+            }, 1000)
         }
     }
 
@@ -91,7 +104,7 @@ const NewGoal = () => {
                     )
                 }
                 <Modal.Header closeButton>
-                    <Modal.Title>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal'}</Modal.Title>
+                    <Modal.Title>{ goalId ? 'Add Tasks' : 'Add Goal'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {
@@ -102,7 +115,8 @@ const NewGoal = () => {
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button disabled={goalId && !taskInitiated} variant="primary" onClick={handleAddGoalTasks}>{ goalId ? (taskAdded ? 'Update Tasks' : 'Add Tasks') : 'Add Goal' }</Button>
+                    <div className="flash-message">{flashMessage}</div>
+                    <Button disabled={goalId && !taskInitiated} variant="primary" onClick={handleAddGoalTasks}>{ goalId ? 'Save' : 'Add Goal' }</Button>
                     <Button variant="secondary" onClick={handleClose}>{ goalId ? 'Close' : 'Cancel'}</Button>
                 </Modal.Footer>
             </Modal>

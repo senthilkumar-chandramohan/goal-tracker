@@ -3,11 +3,11 @@ import cors from "cors"
 import 'dotenv/config'
 import gptSampleJsonTemplates from "./utils/gpt_sample_json_templates.js"
 
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4001
 const app = express()
 app.use(express.json())
 app.use(cors({
-    origin: [process.env.CORS_ORIGIN]
+  origin: [process.env.CORS_ORIGIN]
 }))
 
 app.post("/stream-tasks", async (req, res) => {
@@ -43,10 +43,10 @@ app.post("/stream-tasks", async (req, res) => {
 
     res.setHeader("Content-Type", "text/event-stream")
     res.setHeader("Access-Control-Allow-Origin", "*")
-    const reader = response.body.getReader();
+    const reader = response.body.getReader()
     while (true) {
-      const {value, done} = await reader.read();
-      if (done) break;
+      const {value, done} = await reader.read()
+      if (done) break
       res.write(value)
     }
     res.end()

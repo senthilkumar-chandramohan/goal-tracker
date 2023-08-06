@@ -48,7 +48,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
     }
 
     const handleTaskHeadingClick = (elem) => {
-        const group = document.getElementById(`${type}${elem.target.id.substr(type.length,1)}`)
+        const group = document.getElementById(`${type}${elem.target.id.substring(type.length,elem.target.id.indexOf("Heading"))}`)
         if (group.classList.contains('minimize')) {
             group.classList.remove('minimize')
         } else {

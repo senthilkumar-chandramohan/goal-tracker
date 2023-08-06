@@ -19,6 +19,13 @@ p.legal {
     font-size: 0.75rem;
 }
 
+.root {
+    margin: 0 auto;
+    @media only screen and (min-width: 769px) {
+        width: 769px;
+    }
+}
+
 .add-goal {
     height: 5rem;
     width: 5rem;
@@ -202,6 +209,7 @@ p.legal {
             border-radius: 0.25rem;
             padding: 0.5rem;
             width: 100%;
+            background: #fff;
         }
 
         .task-duration {
@@ -344,7 +352,7 @@ p.legal {
         &::after {
             content: "DONE";
             color: @Spring-Blossoms-Colorful-3-rgba;
-            height: 100%;
+            height: 34px;
             width: 80px;
             position: absolute;
             top: 0px;

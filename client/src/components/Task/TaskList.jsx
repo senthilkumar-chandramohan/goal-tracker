@@ -116,7 +116,6 @@ const TaskList = () => {
                                     mode === 'edit' &&
                                     <hr />
                                 }
-                                <br />
                                 <h6>Do you want ChatGPT to recommend tasks?</h6>
                                 <p className="legal">
                                     <b>Disclaimer:</b> Be judicious while adding tasks recommended by ChatGPT as tasks and timeframe indicated might be inaccurate.

@@ -11,6 +11,7 @@ import { storeGoals } from '../../utils/storage'
 const ViewEditGoal = () => {
     const [, setTaskInitiated] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [flashMessage, setFlashMessage] = useState("")
     const { goalInFocus, setGoalInFocus } = useContext(MainContext)
 
     const [, updateState] = useState();
@@ -38,6 +39,13 @@ const ViewEditGoal = () => {
         }
     }
 
+    const showFlashMessage = (message, timeout) => {
+        setFlashMessage(message)
+        setTimeout(()=>{
+            setFlashMessage("")
+        }, timeout)
+    }
+
     const handleGoalClick = () => {
         if (mode === 'view') {
             setMode('edit')
@@ -54,6 +62,10 @@ const ViewEditGoal = () => {
             // Store updated goals object in local storage
             storeGoals(window.goals)
             setMode('view')
+            showFlashMessage("Saving...", 500)
+            window.setTimeout(()=>{
+                showFlashMessage("Changes saved!", 2000)
+            }, 1000)
         }
     }
 
@@ -103,7 +115,8 @@ const ViewEditGoal = () => {
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleGoalClick}>{mode === 'view' ? 'Edit Goal' : 'Save Changes'}</Button>
+                    <div className="flash-message">{flashMessage}</div>
+                    <Button variant="primary" onClick={handleGoalClick}>{mode === 'view' ? 'Edit Goal' : 'Save'}</Button>
                     <Button variant="secondary" onClick={handleClose}>{mode === 'view' ? 'Close' : 'Cancel'}</Button>
                 </Modal.Footer>
             </Modal>

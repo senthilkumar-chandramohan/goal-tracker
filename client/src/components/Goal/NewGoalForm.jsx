@@ -8,34 +8,34 @@ const NewGoalForm = () => {
         <form autoComplete="off">
             <div className="container">
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-3">
                         <label className="form-label" htmlFor="heading">Heading</label>
                     </div>
-                    <div className="col-8">
+                    <div className="col-9">
                         <input className="form-control" id="heading" type="text" placeholder="e.g. Learn Guitar, Become fit" maxLength={30} required autoFocus />
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-3">
                         <label className="form-label" htmlFor="description">Description (optional)</label>
                     </div>
-                    <div className="col-8">
+                    <div className="col-9">
                         <textarea className="form-control" id="description" rows="6" cols="30"></textarea>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-3">
                         <label htmlFor="startDate">Start Date</label>
                     </div>
-                    <div className="col-8">
+                    <div className="col-9">
                         <DatePicker id="startDate" className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-3">
                         <label htmlFor="count">Deadline</label>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                         <select className="form-select" id="count" defaultValue="4">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -52,10 +52,10 @@ const NewGoalForm = () => {
                         </select>
                     </div>
                     <div className="col-3 form-check">
-                        <input className="form-check-input" id="week" type="radio" name="unit" value="w" checked /> <label className="form-check-label" htmlFor="week">Week(s)</label>
+                        <input className="form-check-input" id="week" type="radio" name="unit" value="w" checked /> <label className="form-check-label" htmlFor="week">Week</label>
                     </div>
                     <div className="col-3 form-check">
-                        <input className="form-check-input" id="month" type="radio" name="unit" value="m" /> <label className="form-check-label" htmlFor="month">Month(s)</label>
+                        <input className="form-check-input" id="month" type="radio" name="unit" value="m" /> <label className="form-check-label" htmlFor="month">Month</label>
                     </div>
                 </div>
             </div>
