@@ -103,6 +103,10 @@ const TaskList = () => {
                 setLoading(false)
             }
         })
+        .catch(() => {
+            alert("Error loading ChatGPT recommendations, please try again!")
+            setLoading(false)
+        })
     }
 
     return (
