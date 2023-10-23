@@ -1,6 +1,6 @@
 {
   "name": "goal-tracker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An AI-powered assistant to track your life &amp; career goals.",
   "main": "api/index.js",
   "engines": {
