@@ -33,7 +33,10 @@ const NewGoal = () => {
         }, timeout)
     }
 
-    const handleShow = () => setShow(true)
+    const handleShow = () => {
+        setShow(true)
+        window.hj('event', 'Add Goal Form Opened ' + Math.random() > 0.5 ? 'Control' : 'Treatment')
+    }
     
     const handleAddGoalTasks = () => {
         if (!goalId) {
@@ -66,6 +69,7 @@ const NewGoal = () => {
             storeGoals(window.goals)
             setGoalId(id)
             showFlashMessage("Goal added!", 2000)
+            window.hj('event', 'Goal Added ' + Math.random() > 0.5 ? 'Control' : 'Treatment')
         } else {
             const goal = window.goals.find(goal => goal.id === goalId)
             goal.roadmap = roadmap
@@ -76,6 +80,7 @@ const NewGoal = () => {
             window.setTimeout(()=>{
                 showFlashMessage("Changes saved!", 2000)
             }, 1000)
+            window.hj('event', 'Goal Updated ' + Math.random() > 0.5 ? 'Control' : 'Treatment')
         }
     }
 

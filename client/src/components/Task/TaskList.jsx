@@ -40,6 +40,8 @@ const TaskList = () => {
         if (mode === 'view') {
             setMode('edit')
         }
+
+        window.hj('event', 'Chat GPT recommendations not sought')
     }
 
     const handleGetGPTRecommendations = () => {
@@ -59,6 +61,8 @@ const TaskList = () => {
 
         setLoading(true)
         const jsonStr = []
+
+        window.hj('event', 'Chat GPT recommendations sought')
 
         fetch(`${import.meta.env.VITE_SERVER_URI}/stream-tasks`, {
             method: 'POST',

@@ -49,6 +49,7 @@ const ViewEditGoal = () => {
     const handleGoalClick = () => {
         if (mode === 'view') {
             setMode('edit')
+            window.hj('event', 'Goal Edit Start')
         } else {
             // Logic to save changes to Goal and Tasks
             const heading = document.getElementById('heading').value
@@ -66,6 +67,7 @@ const ViewEditGoal = () => {
             window.setTimeout(()=>{
                 showFlashMessage("Changes saved!", 2000)
             }, 1000)
+            window.hj('event', 'Goal and Tasks saved')
         }
     }
 
