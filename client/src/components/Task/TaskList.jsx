@@ -42,6 +42,7 @@ const TaskList = () => {
         }
 
         window.hj('event', 'Chat GPT recommendations not sought')
+        console.log("Chat GPT recommendations not sought event fired")
     }
 
     const handleGetGPTRecommendations = () => {
@@ -63,6 +64,7 @@ const TaskList = () => {
         const jsonStr = []
 
         window.hj('event', 'Chat GPT recommendations sought')
+        console.log("Chat GPT recommendations sought event fired")
 
         fetch(`${import.meta.env.VITE_SERVER_URI}/stream-tasks`, {
             method: 'POST',

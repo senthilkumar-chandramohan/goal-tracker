@@ -36,6 +36,7 @@ const NewGoal = () => {
     const handleShow = () => {
         setShow(true)
         window.hj('event', 'Add Goal Form Opened ' + Math.random() > 0.5 ? 'Control' : 'Treatment')
+        console.log("Add goal form opened event fired")
     }
     
     const handleAddGoalTasks = () => {
@@ -70,7 +71,8 @@ const NewGoal = () => {
             setGoalId(id)
             showFlashMessage("Goal added!", 2000)
             window.hj('event', 'Goal Added ' + Math.random() > 0.5 ? 'Control' : 'Treatment')
-        } else {
+            console.log("Goal added event fired")
+    } else {
             const goal = window.goals.find(goal => goal.id === goalId)
             goal.roadmap = roadmap
             // Store updated goals object in local storage
@@ -81,6 +83,7 @@ const NewGoal = () => {
                 showFlashMessage("Changes saved!", 2000)
             }, 1000)
             window.hj('event', 'Goal Updated ' + Math.random() > 0.5 ? 'Control' : 'Treatment')
+            console.log("Goal updated event fired")
         }
     }
 

@@ -71,6 +71,7 @@ const TaskGroup = ({ type, weekMonthIdx }) => {
         })
         forceUpdate()
         window.hj('event', 'New task added')
+        console.log("New task added event fired")
     }
 
     const validateDurationChange = (increment, taskIdx) => {
