@@ -91,7 +91,7 @@ const TaskList = () => {
 
                     // Collect all text inside value of "content" key in streamed text
                     while ( (result = regex.exec(text)) ) {
-                        jsonStr.push(text.substring(result.index + 11, text.indexOf("\"finish_reason", result.index) - 3))
+                        jsonStr.push(text.substring(result.index + 11, text.indexOf("\"refusal", result.index) > 0 ? text.indexOf("\"refusal", result.index) - 2 : text.indexOf("\"logprobs", result.index) - 3))
                     }
 
                     const gptResponse = JSON.parse(jsonStr.join("").replace(/\\n/g,"").replace(/\\/g,""))
